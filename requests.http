@@ -1,3 +1,8 @@
+###------------------------------------------
+###docker exec -it gaming_postgres psql -U admin -c "CREATE DATABASE user_db;"
+###docker exec -it gaming_postgres psql -U admin -c "CREATE DATABASE session_db;
+###docker exec -it gaming_postgres psql -U admin -c "CREATE DATABASE notification_db;"
+###------------------------------------------
 POST http://localhost:8080/user-service/api/users/register
 Content-Type: application/json
 

@@ -86,7 +86,7 @@ public class SessionService {
         session.setStatus(SessionStatus.CANCELLED);
         sessionRepository.save(session);
 
-        // Notify All Participants
+
         if (!session.getParticipants().isEmpty()) {
             List<UserResponse> users = userServiceClient.getUserDetails(session.getParticipants());
 

@@ -85,7 +85,7 @@ public class UiController {
     @GetMapping("/manage/{id}")
     public String manage(@PathVariable Long id, HttpSession session, Model model) {
         String token = (String) session.getAttribute("token");
-        // Get single session data (lazy filtered from list)
+
         Map sessionData = apiService.getSessions(token, null).stream()
                 .filter(s -> Long.valueOf(s.get("id").toString()).equals(id))
                 .findFirst().orElseThrow();

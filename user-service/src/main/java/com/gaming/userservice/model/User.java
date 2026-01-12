@@ -20,12 +20,12 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    // Common fields
+
     @Column(unique = true, nullable = false)
     private String username;
 
     @Column(nullable = false)
-    private String password; // Will be hashed
+    private String password;
 
     @Column(nullable = false)
     private String name;

@@ -31,12 +31,12 @@ public class UserServiceImpl implements UserService {
         User user = userRepository.findByEmail(request.getEmail())
                 .orElseThrow(() -> new RuntimeException("Invalid credentials"));
 
-        // Password Check
+
         if (!passwordEncoder.matches(request.getPassword(), user.getPassword())) {
             throw new RuntimeException("Invalid credentials");
         }
 
-        // Requirement: Prohibition of use checks
+
         if (!user.isActivated()) {
             throw new RuntimeException("Account is not activated. Please check your email.");
         }
@@ -45,7 +45,7 @@ public class UserServiceImpl implements UserService {
             throw new RuntimeException("Account is blocked by Admin.");
         }
 
-        // Generate JWT
+
         String token = jwtService.generateToken(
                 user.getId(),
                 user.getUsername(),
@@ -133,7 +133,7 @@ public class UserServiceImpl implements UserService {
 
         organizer.setSuccessfulOrganizedSessions(organizer.getSuccessfulOrganizedSessions() + 1);
         organizer.setAttendedSessions(organizer.getAttendedSessions() + 1); // Logic implies organizer attended
-        updateOrganizerTitle(organizer); // Check for promotion
+        updateOrganizerTitle(organizer);
         userRepository.save(organizer);
 
         for (Long userId : report.getPresentUserIds()) {
