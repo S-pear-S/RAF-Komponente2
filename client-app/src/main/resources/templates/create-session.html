@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html>
+<head><title>New Session</title></head>
+<body style="padding: 50px; text-align: center; font-family: sans-serif;">
+<h2>Organize a Gaming Session</h2>
+<form action="/create-session" method="POST" style="display:inline-block; text-align: left;">
+    <label>Session Name:</label><br><input name="name" required><br>
+    <label>Game ID (e.g., 1):</label><br><input name="gameId" type="number" required><br>
+    <label>Max Players:</label><br><input name="maxPlayers" type="number" value="5" required><br>
+    <label>Is Closed (Invite Only):</label> <input type="checkbox" name="isClosed"><br>
+    <label>Start Time:</label><br><input name="startTime" type="datetime-local" required><br>
+    <label>Description:</label><br><textarea name="description"></textarea><br><br>
+    <button type="submit">Create</button>
+</form>
+</body>
+</html>

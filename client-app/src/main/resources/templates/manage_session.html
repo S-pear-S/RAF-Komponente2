@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head> <title>Manage Session</title> </head>
+<body style="font-family: sans-serif; padding: 20px;">
+<h2>Manage: <span th:text="${session.name}"></span></h2>
+<a href="/dashboard">Back</a>
+
+<hr/>
+<h3>Actions</h3>
+<!-- Invite -->
+<form th:action="@{/manage/{id}/invite(id=${session.id})}" method="POST">
+    <input name="email" placeholder="friend@email.com" required>
+    <button type="submit">Send Invite</button>
+</form>
+
+<!-- Cancel -->
+<form th:action="@{/manage/{id}/cancel(id=${session.id})}" method="POST" style="margin-top:10px;">
+    <button type="submit" style="background:red; color:white;">Cancel Session</button>
+</form>
+
+<hr/>
+<h3>Finish & Record Attendance</h3>
+<form th:action="@{/manage/{id}/finish(id=${session.id})}" method="POST">
+    <p>Select users who were <b>ABSENT</b>:</p>
+    <!-- Loop Participants to check off who missed -->
+    <div th:each="userId : ${session.participants}">
+        <!-- Dont show organizer himself -->
+        <label th:if="${userId != session.organizerId}">
+            <input type="checkbox" name="absentIds" th:value="${userId}">
+            User ID: <span th:text="${userId}"></span>
+        </label><br>
+    </div>
+    <br>
+    <button type="submit" style="background:green; color:white;">Finish & Report</button>
+</form>
+
+</body>
+</html>

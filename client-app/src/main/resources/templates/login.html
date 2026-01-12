@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Gaming Login</title>
+    <style>
+        body { font-family: sans-serif; display: flex; justify-content: center; margin-top: 50px; }
+        .box { border: 1px solid #ccc; padding: 20px; border-radius: 8px; width: 300px; }
+        input { width: 100%; margin-bottom: 10px; padding: 5px; box-sizing: border-box; }
+        button { width: 100%; padding: 10px; background: #007bff; color: white; border: none; cursor: pointer; }
+        .error { color: red; margin-bottom: 10px; }
+    </style>
+</head>
+<body>
+<div class="box">
+    <h2>Login</h2>
+    <div th:if="${param.registered}" style="color: green; margin-bottom: 10px;">
+        Registration successful! Please login.
+    </div>
+    <div th:if="${error}" class="error" th:text="${error}"></div>
+    <form action="/login" method="POST">
+        <p>New player? <a href="/register">Create an Account</a></p>
+        <label>Email</label>
+        <input type="email" name="email" value="gamer2@example.com" required>
+        <label>Password</label>
+        <input type="password" name="password" value="password123" required>
+        <button type="submit">Sign In</button>
+    </form>
+</div>
+</body>
+</html>

@@ -1,0 +1,40 @@
+
+services:
+  postgres:
+    image: postgres:15-alpine
+    container_name: gaming_postgres
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: password
+    volumes:
+      - ./postgres-data:/var/lib/postgresql/data
+      - ./init-scripts:/docker-entrypoint-initdb.d
+    networks:
+      - gaming-network
+
+  rabbitmq:
+    image: rabbitmq:3-management
+    container_name: gaming_rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    environment:
+      RABBITMQ_DEFAULT_USER: guest
+      RABBITMQ_DEFAULT_PASS: guest
+    networks:
+      - gaming-network
+
+  mailhog:
+    image: mailhog/mailhog
+    container_name: gaming_mailhog
+    ports:
+      - "1025:1025"
+      - "8025:8025"
+    networks:
+      - gaming-network
+
+networks:
+  gaming-network:
+    driver: bridge

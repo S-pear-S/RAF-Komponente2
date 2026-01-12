@@ -1,0 +1,79 @@
+POST http://localhost:8080/user-service/api/users/register
+Content-Type: application/json
+
+{
+  "username": "milos_obilic",
+  "password": "secretpassword",
+  "name": "Jonatan",
+  "surname": "Snow",
+  "email": "jonny@winter.com",
+  "dateOfBirth": "1995-12-25"
+}
+
+### 2. Login to get Token
+POST http://localhost:8080/user-service/api/users/login
+Content-Type: application/json
+
+{
+  "email": "jonny@winter.com",
+  "password": "secretpassword"
+}
+
+### STEP 3: Create a Game (Required before creating a session)
+POST http://localhost:8080/session-service/api/sessions/games
+Content-Type: application/json
+
+{
+  "name": "Super Gaming 2026",
+  "description": "Tactical shooter",
+  "genre": "FPS"
+}
+
+### STEP 4: Login again to capture Token automatically
+POST http://localhost:8080/user-service/api/users/login
+Content-Type: application/json
+
+{
+  "email": "jon@winterfell.com",
+  "password": "secretpassword"
+}
+
+> {%
+    client.global.set("auth_token", response.body.token);
+%}
+
+### STEP 5: Create a Session
+POST http://localhost:8080/session-service/api/sessions
+Content-Type: application/json
+Authorization: Bearer {{auth_token}}
+
+{
+  "name": "Raf Skolica",
+  "gameId": 1,
+  "maxPlayers": 5,
+  "isClosed": false,
+  "description": "Noobs welcome",
+  "startTime": "2026-01-20T21:00:00"
+}
+
+### STEP 6: Search for Sessions
+GET http://localhost:8080/session-service/api/sessions?keyword=Noob&gameId=1
+Authorization: Bearer {{auth_token}}
+
+### STEP 7: Join a Session
+POST http://localhost:8080/session-service/api/sessions/1/join
+Authorization: Bearer {{auth_token}}
+
+### Step 8
+POST http://localhost:8080/session-service/api/sessions/1/invite?email=jon@winterfell.com
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+### Step 9 zavrsetak
+POST http://localhost:8080/session-service/api/sessions/1/finish
+Authorization: Bearer {{auth_token}}
+Content-Type: application/json
+
+{
+  "absentPlayerIds": []
+}

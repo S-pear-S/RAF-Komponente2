@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Dashboard</title>
+    <style>
+        body { font-family: sans-serif; padding: 20px; }
+        table { width: 100%; border-collapse: collapse; margin-top: 10px; }
+        th, td { border: 1px solid #ddd; padding: 8px; text-align: center; }
+        th { background: #f2f2f2; }
+        .btn { padding: 5px 10px; text-decoration: none; color: white; background: #007bff; border-radius: 4px; border:none; cursor: pointer;}
+        .btn-green { background: green; }
+        .btn-red { background: red; }
+        .btn-manage { background: orange; }
+    </style>
+</head>
+<body>
+<div style="display:flex; justify-content: space-between; align-items: center;">
+    <h1>Gaming Lobby</h1>
+    <div>
+        <span th:text="'User ID: ' + ${myId}"></span> |
+        <a href="/logout" style="color:red">Logout</a>
+    </div>
+</div>
+
+<div style="margin-bottom: 20px;">
+    <a href="/create-session" class="btn btn-green">Create New Session</a>
+
+    <form action="/dashboard" method="GET" style="display:inline; margin-left: 20px;">
+        <input name="keyword" placeholder="Search keywords...">
+        <button type="submit">Filter</button>
+    </form>
+</div>
+
+<table>
+    <thead>
+    <tr>
+        <th>ID</th> <th>Name</th> <th>Game</th> <th>Players</th> <th>Status</th> <th>Actions</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="s : ${sessions}">
+        <td th:text="${s.id}"></td>
+        <td th:text="${s.name}"></td>
+        <td th:text="${s.game.name}"></td>
+        <td th:text="${#lists.size(s.participants)} + '/' + ${s.maxPlayers}"></td>
+        <td th:text="${s.status}"></td>
+        <td>
+            <!-- If User IS NOT Organizer -->
+            <form th:if="${s.organizerId != myId}" th:action="@{/join/{id}(id=${s.id})}" method="POST" style="display:inline">
+                <button type="submit" class="btn">Join</button>
+            </form>
+
+            <!-- If User IS Organizer -->
+            <a th:if="${s.organizerId == myId}" th:href="@{/manage/{id}(id=${s.id})}" class="btn btn-manage">Manage</a>
+        </td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>
